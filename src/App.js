@@ -1,37 +1,46 @@
 import {useState} from "react";
+import ToDoList from "./ToDoList";
+import PropTypes from "prop-types";
+import CoinTracker from "./CoinTracker";
+import Movie from "./Movie";
 
 function App() {
-    const [toDo, setToDo] = useState("")
-    const [toDos, setToDos] = useState([])
-    const onChange = (event) => setToDo(() => event.target.value)
-    const onSubmit = (event) => {
-        event.preventDefault();
-        if (toDo === "") return
-        setToDos((prevState => {
-            return [toDo, ...toDos]
-        }))
-        setToDo("")
+    const [menu, setMenu] = useState("0")
+    const onMenuChange = (event) => {
+        setMenu(() => event.target.value)
     }
     return (
         <div>
-            <h1>My To-Do List ({toDos.length})</h1>
-
-            <form onSubmit={onSubmit}>
-                <input
-                    type="text" value={toDo} placeholder="type what to do"
-                    onChange={onChange}
-                />
-                <button>add</button>
-            </form>
-            <hr/>
-            <ul>
-                {toDos.map((item, index) => (
-                    <li key={index}>{item}</li>
-                ))}
-            </ul>
+            <div>
+                <select value={menu} onChange={onMenuChange}>
+                    <option value={"0"}> select menu </option>
+                    <option value={"1"}> To-Do List </option>
+                    <option value={"2"}> Coin Tracker </option>
+                    <option value={"3"}> Movie App </option>
+                </select>
+            </div>
+            <SwitchMenu menu={menu}  />
         </div>
+        )
+}
 
-    );
+const SwitchMenu = ({menu}) => {
+    switch (menu) {
+        case "0":
+            return <h3>메뉴를 선택하세요</h3>
+        case "1":
+            return <ToDoList />
+        case "2":
+            return <CoinTracker />
+        case "3":
+            return <Movie />
+        default :
+            return null
+    }
+}
+
+SwitchMenu.propTypes = {
+    menu: PropTypes.string.isRequired
 }
 
 export default App;
