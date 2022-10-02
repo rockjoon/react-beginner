@@ -1,4 +1,5 @@
 import {useEffect, useState} from "react";
+import {Link} from "react-router-dom";
 
 function Movie() {
     const [loading, setLoading] = useState(true)
@@ -19,7 +20,9 @@ function Movie() {
             <div>
                 {movies.map(m => {
                     return (<div key={m.id}>
-                        <h2>{m.title} {`(${m.year})`} </h2>
+                        <h2>
+                            <Link to={`/movies/${m.id}`}>{m.title}</Link>
+                        </h2>
                         <img src={m.medium_cover_image} />
                         <p>{m.summary}</p>
                     </div>)
